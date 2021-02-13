@@ -1,16 +1,115 @@
-# example
+# searchable_dropdown
 
-A new Flutter application.
+Widget allows user to search from a dynamic lst of data you can customise the dropdown according to your need,it can also be customised as multiple select or single select. The on change event reurn the complete list from index which option is selected.
 
-## Getting Started
+## Platforms
 
-This project is a starting point for a Flutter application.
+This widget has been successfully tested on iOS, Android and Chrome.
 
-A few resources to get you started if this is your first Flutter project:
+## Examples
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+The Example will help you to know how it works.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Code
+
+#### Plugin usage
+
+Add to your `pubspec.yaml` in the `dependencies` section:
+```
+  custom_searchable_dropdown:
+```
+
+Get packages with command:
+```
+flutter packages get
+```
+
+Import:
+```dart
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
+```
+
+#### Single Select
+```dart
+     customSearchableDropDown(
+                     items: listToSearch,
+                     label: 'Select Subject',
+                     decoration: BoxDecoration(
+                         border: Border.all(
+                             color: Colors.blue
+                         )
+                     ),
+                     prefixIcon:  Padding(
+                       padding: const EdgeInsets.all(0.0),
+                       child: Icon(Icons.search),
+                     ),
+                     dropDownMenuItems: listToSearch?.map((item) {
+                       return item['name'];
+                     })?.toList() ??
+                         [],
+                     onChanged: (value){
+                       if(value!=null)
+                       {
+                         selected = value['class'].toString();
+                       }
+                       else{
+                         selected=null;
+                       }
+                     },
+                   ),
+```
+#### Multi Select
+```dart
+      SearchableDropdown.multiple(
+        items: items,
+        selectedItems: selectedItems,
+        hint: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Text("Select any"),
+        ),
+        searchHint: "Select any",
+        onChanged: (value) {
+          setState(() {
+            selectedItems = value;
+          });
+        },
+        closeButton: (selectedItems) {
+          return (selectedItems.isNotEmpty
+              ? "Save ${selectedItems.length == 1 ? '"' + items[selectedItems.first].value.toString() + '"' : '(' + selectedItems.length.toString() + ')'}"
+              : "Save without selection");
+        },
+        isExpanded: true,
+      ),
+```
+
+#### Multi Select as Widget
+```dart
+      customSearchableDropDown(
+                      items: listToSearch,
+                      label: 'Select Name',
+                      multiSelectTag: 'Names',
+                      multiSelectValuesAsWidget: false,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blue
+                        )
+                      ),
+                      multiSelect: true,
+                      prefixIcon:  Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Icon(Icons.search),
+                      ),
+                      dropDownMenuItems: listToSearch?.map((item) {
+                        return item['name'];
+                      })?.toList() ??
+                          [],
+                      onChanged: (value){
+                        if(value!=null)
+                        {
+                          selectedList = jsonDecode(value);
+                        }
+                        else{
+                          selectedList.clear();
+                        }
+                      },
+                    ),

@@ -79,6 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
     {
       'name': 'Tazeem',
       'class': 7
+    },
+    {
+      'name': 'Najaf',
+      'class': 6
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
     }
   ];
 
@@ -93,8 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
             SizedBox(height: 20,),
             Text('Select a value'),
@@ -102,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: customSearchableDropDown(
                 items: listToSearch,
-                label: 'Select Subject',
+                label: 'Select Name',
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: Colors.blue
@@ -127,13 +134,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            Text('Select Multiple values show selected value.'),
+            Text('Multi Select'),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: customSearchableDropDown(
                 items: listToSearch,
-                label: 'Select Subject',
-                multiSelectValuesAsWidget: true,
+                label: 'Select Name',
+                multiSelectTag: 'Names',
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: Colors.blue
@@ -159,13 +166,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            Text('Select Multiple values'),
+            Text('Multi Select as Widget'),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: customSearchableDropDown(
                 items: listToSearch,
-                label: 'Select Subject',
-                multiSelectValuesAsWidget: false,
+                label: 'Select Name',
+                multiSelectTag: 'Names',
+                multiSelectValuesAsWidget: true,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.blue
