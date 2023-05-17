@@ -29,13 +29,15 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Custom Searchable DropDown Demo',),
+      home: MyHomePage(
+        title: 'Custom Searchable DropDown Demo',
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -53,46 +55,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-  List listToSearch=[
-    {
-      'name': 'Amir',
-      'class': 12
-    },
-    {
-      'name': 'Raza',
-      'class': 11
-    },
-    {
-      'name': 'Praksh',
-      'class': 10
-    },
-    {
-      'name': 'Nikhil',
-      'class': 9
-    },
-    {
-      'name': 'Sandeep',
-      'class': 8
-    },
-    {
-      'name': 'Tazeem',
-      'class': 7
-    },
-    {
-      'name': 'Najaf',
-      'class': 6
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    }
+  List? listToSearch = [
+    {'name': 'Amir', 'class': 12},
+    {'name': 'Raza', 'class': 11},
+    {'name': 'Praksh', 'class': 10},
+    {'name': 'Nikhil', 'class': 9},
+    {'name': 'Sandeep', 'class': 8},
+    {'name': 'Tazeem', 'class': 7},
+    {'name': 'Najaf', 'class': 6},
+    {'name': 'Izhar', 'class': 5}
   ];
 
   var selected;
-  List selectedList;
-
+  List? selectedList;
 
   @override
   Widget build(BuildContext context) {
@@ -103,33 +78,30 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Text('Select a value'),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: customSearchableDropDown(
-                items: listToSearch,
+              child: CustomSearchableDropDown(
+                items: listToSearch!,
                 label: 'Select Name',
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.blue
-                    )
-                ),
-                prefixIcon:  Padding(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blue)),
+                prefixIcon: Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: Icon(Icons.search),
                 ),
                 dropDownMenuItems: listToSearch?.map((item) {
-                  return item['name'];
-                })?.toList() ??
+                      return item['name'];
+                    }).toList() ??
                     [],
-                onChanged: (value){
-                  if(value!=null)
-                  {
+                onChanged: (value) {
+                  if (value != null) {
                     selected = value['class'].toString();
-                  }
-                  else{
-                    selected=null;
+                  } else {
+                    selected = null;
                   }
                 },
               ),
@@ -137,31 +109,26 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('Multi Select'),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: customSearchableDropDown(
-                items: listToSearch,
+              child: CustomSearchableDropDown(
+                items: listToSearch!,
                 label: 'Select Name',
                 multiSelectTag: 'Names',
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.blue
-                    )
-                ),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blue)),
                 multiSelect: true,
-                prefixIcon:  Padding(
+                prefixIcon: Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: Icon(Icons.search),
                 ),
                 dropDownMenuItems: listToSearch?.map((item) {
-                  return item['name'];
-                })?.toList() ??
+                      return item['name'];
+                    }).toList() ??
                     [],
-                onChanged: (value){
-                  if(value!=null)
-                  {
+                onChanged: (value) {
+                  if (value != null) {
                     selectedList = jsonDecode(value);
-                  }
-                  else{
-                    selectedList.clear();
+                  } else {
+                    selectedList!.clear();
                   }
                 },
               ),
@@ -169,32 +136,27 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('Multi Select as Widget'),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: customSearchableDropDown(
-                items: listToSearch,
+              child: CustomSearchableDropDown(
+                items: listToSearch!,
                 label: 'Select Name',
                 multiSelectTag: 'Names',
                 multiSelectValuesAsWidget: true,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue
-                  )
-                ),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.blue)),
                 multiSelect: true,
-                prefixIcon:  Padding(
+                prefixIcon: Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: Icon(Icons.search),
                 ),
                 dropDownMenuItems: listToSearch?.map((item) {
-                  return item['name'];
-                })?.toList() ??
+                      return item['name'];
+                    }).toList() ??
                     [],
-                onChanged: (value){
-                  if(value!=null)
-                  {
+                onChanged: (value) {
+                  if (value != null) {
                     selectedList = jsonDecode(value);
-                  }
-                  else{
-                    selectedList.clear();
+                  } else {
+                    selectedList!.clear();
                   }
                 },
               ),
