@@ -4,8 +4,8 @@ version: 1.0.5
 homepage: https://github.com/amirr-dotcom/custom_searchable_dropdown
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:
