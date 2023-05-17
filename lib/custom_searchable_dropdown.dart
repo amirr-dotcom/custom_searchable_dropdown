@@ -24,26 +24,31 @@ class CustomSearchableDropDown<T> extends StatefulWidget {
   final Decoration? decoration;
   final List? dropDownMenuItems;
   final ValueChanged? onChanged;
+  final String? Function(String?)? validator;
+  final Widget? child;
 
   CustomSearchableDropDown({
+    Key? key,
     required this.items,
-    required this.label,
-    this.onChanged,
-    this.hint = '',
     this.initialValue,
-    this.enabled = true,
-    this.showClearButton = false,
-    this.itemOnDialogueBox,
-    this.dropDownMenuItems,
-    this.prefixIcon,
-    this.menuMode = false,
-    this.initialIndex,
-    this.multiSelect = false,
+    required this.label,
+    this.hint = '',
     this.multiSelectTag,
-    this.multiSelectValuesAsWidget = true,
+    this.initialIndex,
+    this.prefixIcon,
     this.hideSearch = true,
+    this.enabled = true,
+    this.menuMode = false,
+    this.showClearButton = false,
+    this.multiSelect = false,
+    this.multiSelectValuesAsWidget = true,
+    this.itemOnDialogueBox,
     this.decoration,
-  });
+    this.dropDownMenuItems,
+    this.onChanged,
+    this.validator,
+    this.child,
+  }) : super(key: key);
 
   @override
   _CustomSearchableDropDownState createState() =>
@@ -51,8 +56,10 @@ class CustomSearchableDropDown<T> extends StatefulWidget {
 }
 
 class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
+  String? validationError;
   String? onSelectLabel;
   final searchC = TextEditingController();
+  final selectedValue = TextEditingController();
   List menuData = [];
   List mainDataListGroup = [];
   List newDataList = [];
@@ -125,6 +132,11 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
 //   openMenu();
 //   }
 // }
+  @override
+  void dispose() {
+    selectedValue.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,19 +232,47 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                                           widget.multiSelectTag! +
                                           ' selected',
                               style: TextStyle(color: Colors.grey),
-                            ))
+                            ),
+                    )
                   : Expanded(
-                      child: Text(
-                        onSelectLabel == null
-                            ? widget.label == null
-                                ? 'Select Value'
-                                : widget.label!
-                            : onSelectLabel!,
-                        style: TextStyle(
-                          color: onSelectLabel == null
-                              ? Colors.grey[600]
-                              : Colors.grey[800],
+                      child:
+                          // onSelectLabel == null
+                          //     ? Text(
+                          // onSelectLabel == null
+                          //     ? widget.label == null
+                          //         ? 'Select Value'
+                          //         : widget.label!
+                          //     : onSelectLabel!,
+                          //         style: TextStyle(
+                          //           color: onSelectLabel == null
+                          //               ? Colors.grey[600]
+                          //               : Colors.grey[800],
+                          //         ),
+                          //       )
+                          //     :
+                          TextFormField(
+                        controller: selectedValue,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          isDense: true,
+                          enabled: false,
+                          hintText: onSelectLabel == null
+                              ? widget.label == null
+                                  ? 'Select Value'
+                                  : widget.label!
+                              : onSelectLabel!,
+                          contentPadding: EdgeInsets.zero,
+                          border: InputBorder.none,
+                          errorStyle: TextStyle(color: Colors.red),
                         ),
+                        validator: (value) {
+                          setState(() {
+                            validationError = widget.validator!(value!);
+                          });
+                          return validationError;
+                        },
+
+                        //,
                       ),
                     ),
               Visibility(
@@ -411,6 +451,8 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                             for (int i = 0; i < menuData.length; i++) {
                               if (menuData[i] == newDataList[index]) {
                                 onSelectLabel =
+                                    menuData[i].split('-_-')[0].toString();
+                                selectedValue.text =
                                     menuData[i].split('-_-')[0].toString();
                                 widget.onChanged!(widget.items[i]);
                               }

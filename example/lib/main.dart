@@ -55,6 +55,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List? listToSearch = [
     {'name': 'Amir', 'class': 12},
     {'name': 'Raza', 'class': 11},
@@ -82,28 +83,37 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 20,
             ),
             Text('Select a value'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomSearchableDropDown(
-                items: listToSearch!,
-                label: 'Select Name',
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.blue)),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Icon(Icons.search),
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomSearchableDropDown(
+                  items: listToSearch!,
+                  label: 'Select Name',
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.blue)),
+                  validator: (v) {
+                    if (v!.isEmpty) {
+                      return 'Please enter a value';
+                    }
+                    return null;
+                  },
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(Icons.search),
+                  ),
+                  dropDownMenuItems: listToSearch?.map((item) {
+                        return item['name'];
+                      }).toList() ??
+                      [],
+                  onChanged: (value) {
+                    if (value != null) {
+                      selected = value['class'].toString();
+                    } else {
+                      selected = null;
+                    }
+                  },
                 ),
-                dropDownMenuItems: listToSearch?.map((item) {
-                      return item['name'];
-                    }).toList() ??
-                    [],
-                onChanged: (value) {
-                  if (value != null) {
-                    selected = value['class'].toString();
-                  } else {
-                    selected = null;
-                  }
-                },
               ),
             ),
             Text('Multi Select'),
@@ -161,6 +171,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
+            TextButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // _formKey.currentState!.save();
+                    // Handle the validated and saved value here
+                    print('Valid input:');
+                  }
+                },
+                child: Text("validate")),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
