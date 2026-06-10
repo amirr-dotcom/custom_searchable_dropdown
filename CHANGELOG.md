@@ -1,4 +1,4 @@
-## [3.0.0] - 2026-06-10.
+## [3.1.0] - 2026-06-10.
 * Updated package to be fully compatible with latest Flutter and Dart SDKs.
 * Added standard analysis lint configurations.
 * Modernized code, added const constructors, resolved all deprecation warnings, and improved type safety.
