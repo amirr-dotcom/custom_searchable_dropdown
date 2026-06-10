@@ -4,10 +4,12 @@ import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(
+      home: const MyHomePage(
         title: 'Custom Searchable DropDown Demo',
       ),
     );
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -51,7 +53,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -66,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {'name': 'Izhar', 'class': 5}
   ];
 
-  var selected;
+  String? selected;
   List? selectedList;
 
   @override
@@ -78,10 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text('Select a value'),
+            const Text('Select a value'),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomSearchableDropDown(
@@ -89,8 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Select Name',
                 decoration:
                     BoxDecoration(border: Border.all(color: Colors.blue)),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(0.0),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(0.0),
                   child: Icon(Icons.search),
                 ),
                 dropDownMenuItems: listToSearch?.map((item) {
@@ -106,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            Text('Multi Select'),
+            const Text('Multi Select'),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomSearchableDropDown(
@@ -116,8 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration:
                     BoxDecoration(border: Border.all(color: Colors.blue)),
                 multiSelect: true,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(0.0),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(0.0),
                   child: Icon(Icons.search),
                 ),
                 dropDownMenuItems: listToSearch?.map((item) {
@@ -133,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            Text('Multi Select as Widget'),
+            const Text('Multi Select as Widget'),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomSearchableDropDown(
@@ -144,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration:
                     BoxDecoration(border: Border.all(color: Colors.blue)),
                 multiSelect: true,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(0.0),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(0.0),
                   child: Icon(Icons.search),
                 ),
                 dropDownMenuItems: listToSearch?.map((item) {

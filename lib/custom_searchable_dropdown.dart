@@ -2,10 +2,8 @@ library custom_searchable_dropdown;
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class CustomSearchableDropDown<T> extends StatefulWidget {
   final List items;
   final List? initialValue;
@@ -25,7 +23,8 @@ class CustomSearchableDropDown<T> extends StatefulWidget {
   final List? dropDownMenuItems;
   final ValueChanged? onChanged;
 
-  CustomSearchableDropDown({
+  const CustomSearchableDropDown({
+    super.key,
     required this.items,
     required this.label,
     this.onChanged,
@@ -46,11 +45,11 @@ class CustomSearchableDropDown<T> extends StatefulWidget {
   });
 
   @override
-  _CustomSearchableDropDownState createState() =>
-      _CustomSearchableDropDownState();
+  State<CustomSearchableDropDown<T>> createState() =>
+      _CustomSearchableDropDownState<T>();
 }
 
-class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
+class _CustomSearchableDropDownState<T> extends State<CustomSearchableDropDown<T>> {
   String? onSelectLabel;
   final searchC = TextEditingController();
   List menuData = [];
@@ -59,7 +58,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
 
   List selectedValues = [];
 
-  GlobalKey _key = LabeledGlobalKey("button_icon");
+  final GlobalKey _key = LabeledGlobalKey("button_icon");
   OverlayEntry? _overlayEntry;
   late Size buttonSize;
   late Offset buttonPosition;
@@ -138,7 +137,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
           if (widget.initialValue![0]['id'] ==
               widget.items[i][widget.initialValue![0]['param']]) {
             onSelectLabel = widget.dropDownMenuItems![i].toString();
-            print(onSelectLabel);
+            debugPrint(onSelectLabel);
             setState(() {});
           }
         }
@@ -162,7 +161,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
               widget.prefixIcon == null
                   ? Container()
                   : Padding(
-                      padding: EdgeInsets.fromLTRB(
+                      padding: const EdgeInsets.fromLTRB(
                         0,
                         0,
                         13,
@@ -181,7 +180,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                                     padding:
                                         const EdgeInsets.fromLTRB(5, 3, 5, 3),
                                     child: Container(
-                                      decoration: new BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: Colors.green,
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(0.0),
@@ -193,7 +192,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                                           selectedValues[index]
                                               .split('-_-')[0]
                                               .toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12),
                                         ),
@@ -206,20 +205,12 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                           : Text(
                               selectedValues.length == 1
                                   ? widget.multiSelectTag == null
-                                      ? selectedValues.length.toString() +
-                                          ' values selected'
-                                      : selectedValues.length.toString() +
-                                          ' ' +
-                                          widget.multiSelectTag! +
-                                          ' selected'
+                                      ? "${selectedValues.length} values selected"
+                                      : "${selectedValues.length} ${widget.multiSelectTag} selected"
                                   : widget.multiSelectTag == null
-                                      ? selectedValues.length.toString() +
-                                          ' values selected'
-                                      : selectedValues.length.toString() +
-                                          ' ' +
-                                          widget.multiSelectTag! +
-                                          ' selected',
-                              style: TextStyle(color: Colors.grey),
+                                      ? "${selectedValues.length} values selected"
+                                      : "${selectedValues.length} ${widget.multiSelectTag} selected",
+                              style: const TextStyle(color: Colors.grey),
                             ))
                   : Expanded(
                       child: Text(
@@ -239,7 +230,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                   visible: (widget.showClearButton && onSelectLabel != null),
                   child: TextButton(
                     //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    child: Icon(Icons.clear),
+                    child: const Icon(Icons.clear),
                     onPressed: () {
                       widget.onChanged!(null);
                       onSelectLabel = null;
@@ -253,13 +244,11 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
             ],
           ),
           onPressed: () {
-            if (widget.enabled == null || widget.enabled == true) {
+            if (widget.enabled) {
               menuData.clear();
               if (widget.items.isNotEmpty) {
                 for (int i = 0; i < widget.dropDownMenuItems!.length; i++) {
-                  menuData.add(widget.dropDownMenuItems![i].toString() +
-                      '-_-' +
-                      i.toString());
+                  menuData.add("${widget.dropDownMenuItems![i]}-_-$i");
                 }
                 mainDataListGroup = menuData;
                 newDataList = mainDataListGroup;
@@ -287,7 +276,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
         barrierDismissible: true,
         builder: (context) {
           return Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: mainScreen(),
           );
         }).then((valueFromDialog) {
@@ -311,7 +300,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                   child: Row(
                     children: [
                       TextButton(
-                        child: Text(
+                        child: const Text(
                           'Select All',
                           style: TextStyle(color: Colors.blue),
                         ),
@@ -324,7 +313,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                         },
                       ),
                       TextButton(
-                        child: Text(
+                        child: const Text(
                           'Clear All',
                           style: TextStyle(color: Colors.blue),
                         ),
@@ -343,7 +332,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                   child: TextFormField(
                     controller: searchC,
                     autofocus: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       prefixIcon: Icon(
                         Icons.search,
                         color: Colors.blue,
@@ -429,7 +418,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    child: Text(
+                    child: const Text(
                       'Close',
                       style: TextStyle(
                         color: Colors.blue,
@@ -446,7 +435,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                   Visibility(
                     visible: (widget.multiSelect == true && widget.multiSelect),
                     child: TextButton(
-                      child: Text(
+                      child: const Text(
                         'Done',
                         style: TextStyle(color: Colors.blue),
                       ),
@@ -457,7 +446,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown> {
                             sendList.add(widget.items[i]);
                           }
                         }
-                        print(sendList);
+                        debugPrint(sendList.toString());
                         widget.onChanged!(jsonEncode(sendList));
                         if (widget.menuMode == true) {
                           closeMenu();
