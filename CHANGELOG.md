@@ -1,3 +1,6 @@
+## [3.2.2] - 2026-06-19.
+* Fixed menuMode dropdown behavior to correctly close the overlay and update parent state/label upon item selection.
+
 ## [3.2.1] - 2026-06-19.
 * Patch bump to resolve publication synchronization.
 

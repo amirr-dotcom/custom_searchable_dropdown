@@ -80,12 +80,15 @@ class _CustomSearchableDropDownState<T> extends State<CustomSearchableDropDown<T
     findButton();
     _overlayEntry = _overlayEntryBuilder();
     Overlay.of(context).insert(_overlayEntry!);
-    isMenuOpen = !isMenuOpen;
+    isMenuOpen = true;
+    setState(() {});
   }
 
   void closeMenu() {
-    _overlayEntry!.remove();
-    isMenuOpen = !isMenuOpen;
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    isMenuOpen = false;
+    setState(() {});
   }
 
   OverlayEntry _overlayEntryBuilder() {

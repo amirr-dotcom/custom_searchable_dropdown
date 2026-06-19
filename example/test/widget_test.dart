@@ -1,30 +1,64 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:example/main.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Dropdown closes and updates label on item selection in menuMode', (WidgetTester tester) async {
+    // Set a larger surface size to ensure the dropdown menu items are within viewport bounds
+    final TestWidgetsFlutterBinding binding = TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.setSurfaceSize(const Size(800, 1000));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    final listToSearch = [
+      {'name': 'Amir', 'class': 12},
+      {'name': 'Raza', 'class': 11},
+    ];
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    String? selectedClass;
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Column(
+            children: [
+              CustomSearchableDropDown(
+                menuMode: true,
+                hideSearch: false,
+                items: listToSearch,
+                label: 'Select Name',
+                dropDownMenuItems: listToSearch.map((item) => item['name']).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    selectedClass = value['class'].toString();
+                  } else {
+                    selectedClass = null;
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    // Verify initial label is shown
+    expect(find.text('Select Name'), findsOneWidget);
+
+    // Tap to open the menu
+    await tester.tap(find.text('Select Name'));
+    await tester.pumpAndSettle();
+
+    // Verify search bar is visible (meaning menu is open)
+    expect(find.text('Search Here...'), findsOneWidget);
+
+    // Tap on the first item "Amir" to select it
+    await tester.tap(find.text('Amir'));
+    await tester.pumpAndSettle();
+
+    // Verify that the menu is closed (search bar is gone)
+    expect(find.text('Search Here...'), findsNothing);
+
+    // Verify that the label is updated to "Amir"
+    expect(find.text('Amir'), findsOneWidget);
+    expect(selectedClass, '12');
   });
 }
