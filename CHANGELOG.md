@@ -1,3 +1,6 @@
+## [3.2.1] - 2026-06-19.
+* Patch bump to resolve publication synchronization.
+
 ## [3.2.0] - 2026-06-19.
 * Added `suffixIcon` parameter to customize trailing dropdown icon.
 * Fixed search bar visibility toggle logic (using `!widget.hideSearch`).
