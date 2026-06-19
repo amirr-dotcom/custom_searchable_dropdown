@@ -12,6 +12,7 @@ class CustomSearchableDropDown<T> extends StatefulWidget {
   final String? multiSelectTag;
   final int? initialIndex;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final bool hideSearch;
   final bool enabled;
   final bool menuMode;
@@ -40,6 +41,7 @@ class CustomSearchableDropDown<T> extends StatefulWidget {
     this.itemOnDialogueBox,
     this.dropDownMenuItems,
     this.prefixIcon,
+    this.suffixIcon,
     this.menuMode = false,
     this.initialIndex,
     this.multiSelect = false,
@@ -248,9 +250,19 @@ class _CustomSearchableDropDownState<T> extends State<CustomSearchableDropDown<T
                       setState(() {});
                     },
                   )),
-              Icon(
+              widget.suffixIcon == null
+                  ? Icon(
                 Icons.arrow_drop_down,
                 color: widget.items.isEmpty ? Colors.grey : Colors.black,
+              )
+                  : Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  0,
+                  0,
+                  13,
+                  0,
+                ),
+                child: widget.suffixIcon,
               )
             ],
           ),
@@ -337,7 +349,7 @@ class _CustomSearchableDropDownState<T> extends State<CustomSearchableDropDown<T
                     ],
                   )),
               Visibility(
-                visible: widget.hideSearch,
+                visible: !widget.hideSearch,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: SizedBox(

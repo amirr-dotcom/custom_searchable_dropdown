@@ -1,3 +1,8 @@
+## [3.2.0] - 2026-06-19.
+* Added `suffixIcon` parameter to customize trailing dropdown icon.
+* Fixed search bar visibility toggle logic (using `!widget.hideSearch`).
+* Fixed bug where prefix icon was duplicated in trailing position.
+
 ## [3.1.0] - 2026-06-10.
 * Updated package to be fully compatible with latest Flutter and Dart SDKs.
 * Added standard analysis lint configurations.
